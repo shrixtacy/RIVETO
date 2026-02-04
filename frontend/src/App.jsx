@@ -17,6 +17,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import NotFound from './pages/NotFound';
 import Ai from './components/Ai';
+import FaqPage from './pages/faqPage';
 
 
 function App() {
@@ -130,6 +131,16 @@ function App() {
           element={
             userData ? (
               <PlaceOrder />
+            ) : (
+              <Navigate to="/login" state={{ from: location.pathname }} />
+            )
+          }
+        />
+        <Route
+          path="/faqPage"
+          element={
+            userData ? (
+              <FaqPage />
             ) : (
               <Navigate to="/login" state={{ from: location.pathname }} />
             )
