@@ -355,18 +355,18 @@ function Collections() {
               </button>
 
               {/* Sort Dropdown */}
-              <div className='relative'>
+              <div className='relative flex-1 min-w-0 sm:min-w-[160px]'>
                 <select
                   value={sortType}
                   onChange={(e) => setSortType(e.target.value)}
-                  className='appearance-none bg-gray-700 text-white px-4 py-2 rounded-lg pr-8 focus:outline-none focus:ring-2 focus:ring-cyan-500 border border-gray-600'
+                  className='w-full appearance-none bg-gray-700 text-white px-3 py-2 sm:px-4 rounded-lg pr-8 sm:pr-10 focus:outline-none focus:ring-2 focus:ring-cyan-500 border border-gray-600 text-sm'
                 >
                   <option value="relevant">Sort by: Relevant</option>
                   <option value="low-high">Sort by: Price Low to High</option>
                   <option value="high-low">Sort by: Price High to Low</option>
                   <option value="rating">Sort by: Rating</option>
                 </select>
-                <RiArrowUpDownLine className='absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none' />
+                <RiArrowUpDownLine className='absolute right-2 sm:right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none text-sm' />
               </div>
             </div>
           </div>
