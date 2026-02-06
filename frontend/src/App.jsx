@@ -20,6 +20,7 @@ import Ai from './components/Ai';
 import FaqPage from './pages/FaqPage';
 
 import PrivicyPolicy from './pages/PrivicyPolicy';
+import TermsAndServices from './pages/TermsAndServices';
 
 function App() {
   const { userData } = useContext(userDataContext);
@@ -168,7 +169,14 @@ function App() {
             )
           }
         />
-     
+
+        {/* public routes */}
+     <Route
+          path="/termsandservices"
+          element={
+              <TermsAndServices />
+          }
+        />
         
         <Route path='*' element={<NotFound/>}/>
       </Routes>
