@@ -35,15 +35,15 @@ jobs:
 
             const body = `### Thanks for creating a PR! 🙌
 
-            We’ll review it as soon as possible.
+We'll review it as soon as possible.
 
-            **Before review, please confirm:**
-            - Code matches the linked issue
-            - Screenshots or screen recordings are added (if UI related)
-            - Changes are tested locally
-            - No unrelated files are modified
+**Before review, please confirm:**
+- Code matches the linked issue
+- Screenshots or screen recordings are added (if UI related)
+- Changes are tested locally
+- No unrelated files are modified
 
-            Happy contributing 🚀`;
+Happy contributing 🚀`;
 
             await github.rest.issues.createComment({
               owner: context.repo.owner,

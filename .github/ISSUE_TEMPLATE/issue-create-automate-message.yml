@@ -34,14 +34,14 @@ jobs:
 
             const body = `### Thank you for raising this issue! ✨
 
-            We appreciate your contribution.
+We appreciate your contribution.
 
-            **Before creating a PR:**
-            - Read README.md and CONTRIBUTING.md
-            - Wait until the issue is assigned to you
-            - Ask questions if anything is unclear
+**Before creating a PR:**
+- Read README.md and CONTRIBUTING.md
+- Wait until the issue is assigned to you
+- Ask questions if anything is unclear
 
-            Looking forward to your contribution 😊`;
+Looking forward to your contribution 😊`;
 
             await github.rest.issues.createComment({
               owner: context.repo.owner,
