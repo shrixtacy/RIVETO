@@ -1,0 +1,54 @@
+name: Auto Comment on PR
+
+on:
+  pull_request_target:
+    types: [opened]
+
+permissions:
+  pull-requests: write
+  issues: write
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Comment on PR
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const prNumber = context.issue.number;
+
+            const comments = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+            });
+
+            const alreadyCommented = comments.data.some(comment =>
+              comment.body.includes("Thanks for creating a PR")
+            );
+
+            if (alreadyCommented) {
+              console.log("Comment already exists. Skipping.");
+              return;
+            }
+
+            const body = `### Thanks for creating a PR! 🙌
+
+We'll review it as soon as possible.
+
+**Before review, please confirm:**
+- Code matches the linked issue
+- Screenshots or screen recordings are added (if UI related)
+- Changes are tested locally
+- No unrelated files are modified
+
+Happy contributing 🚀`;
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+              body,
+            });
+            console.log('Comment added successfully.');

@@ -1,0 +1,52 @@
+name: Auto Comment on Issue
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add Comment to Issue
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const issueNumber = context.issue.number;
+
+            const comments = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+            });
+
+            const alreadyCommented = comments.data.some(comment =>
+              comment.body.includes("Thank you for raising this issue")
+            );
+
+            if (alreadyCommented) {
+              console.log("Comment already exists. Skipping.");
+              return;
+            }
+
+            const body = `### Thank you for raising this issue! ✨
+
+We appreciate your contribution.
+
+**Before creating a PR:**
+- Read README.md and CONTRIBUTING.md
+- Wait until the issue is assigned to you
+- Ask questions if anything is unclear
+
+Looking forward to your contribution 😊`;
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              body,
+            });
+            console.log('Comment added successfully.');
