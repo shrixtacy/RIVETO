@@ -71,30 +71,17 @@ function Card({ name, image, id, price, showQuickActions = true, badge, badgeCol
 
   const handleAddToCart = (e) => {
     e.stopPropagation();
-    setIsAddingToCart(true);
-    
-    // Animate button
-    gsap.to(e.currentTarget, {
-      scale: 0.95,
-      duration: 0.1,
-      yoyo: true,
-      repeat: 1,
-      ease: 'power2.inOut'
+    // Show warning and navigate to product detail where size selection is required
+    toast.warning('Please select a size before adding to cart', {
+      position: "top-center",
+      autoClose: 1200,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
     });
-    
-    // Simulate API call delay
-    setTimeout(() => {
-      addtoCart(id);
-      toast.success(`${name} added to cart! 🛒`, {
-        position: "bottom-right",
-        autoClose: 2000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
-      setIsAddingToCart(false);
-    }, 500);
+    // Navigate to product detail page for proper size selection
+    navigate(`/productdetail/${id}`);
   };
 
   const handleAddToWishlist = (e) => {
