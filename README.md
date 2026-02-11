@@ -252,6 +252,23 @@ Please review [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
 ---
 
+## 🌟 Our Amazing Contributors
+
+Thank you to all contributors who have helped make RIVETO better! 🚀
+
+<a href="https://github.com/Nsanjayboruds/RIVETO/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Nsanjayboruds/RIVETO" />
+</a>
+
+### 🏆 Special Recognition
+- 🎯 **First Contributor:** [@FirstContributorUsername](link) - For getting us started!
+- 💡 **Most Innovative:** [@ContributorUsername](link) - For implementing [specific feature]
+- 📚 **Documentation Hero:** [@ContributorUsername](link) - Making RIVETO accessible to everyone
+
+*Want to see your name here? Check out our [Contributing Guide](CONTRIBUTING.md)!*
+
+---
+
 ## 🚀 Deployment
 
 - **Docker Compose** and cloud deployment instructions coming soon!
