@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "prepare": "husky"
+    "prepare": "husky",
+    "lint": "npm exec --prefix frontend -- eslint . && npm exec --prefix backend -- eslint .",
+    "format": "prettier --write ."
   },
   "devDependencies": {
     "husky": "^9.0.0",

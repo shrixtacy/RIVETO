@@ -28,7 +28,7 @@
     "validator": "^13.15.15"
   },
   "devDependencies": {
-    "eslint": "^10.0.0",
+    "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-node": "^11.1.0"
   }
