@@ -1,13 +1,23 @@
-import express from 'express';
-import { registration, login, logOut, googleLogin, adminLogin } from '../controller/authcontroller.js';
+import express from "express";
+import { login, registration, logOut, googleLogin, adminLogin } from "../controller/authController.js";
 
+// Import our new validation tools
+import validateRequest from "../middleware/validateRequest.js";
+import { registerSchema, loginSchema } from "../validators/authSchemas.js";
+
+const authRoutes = express.Router();
+
+/**
+ * @swagger
+ * ... (Your existing Swagger comments are safe here) ...
+ */
  
-const authRoutes =express.Router();
+// INJECTED MIDDLEWARE HERE:
+authRoutes.post("/registration", validateRequest(registerSchema), registration);
+authRoutes.post("/login", validateRequest(loginSchema), login);
 
-authRoutes.post("/registration", registration)
-authRoutes.post("/login",login) 
-authRoutes.get("/logout", logOut)  // Add logout route
-authRoutes.post("/googlelogin", googleLogin)  // Add google login route
-authRoutes.post("/adminlogin", adminLogin)  // Add admin login route
+authRoutes.get("/logout", logOut);
+authRoutes.post("/googlelogin", googleLogin);
+authRoutes.post("/adminlogin", adminLogin);
 
 export default authRoutes;
