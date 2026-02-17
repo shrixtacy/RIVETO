@@ -185,26 +185,26 @@ function Footer() {
       {/* Newsletter Subscription */}
       <div className="border-t border-gray-800 py-8">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
             <div>
               <h4 className="text-white font-semibold mb-2">Stay Updated</h4>
               <p className="text-sm text-gray-400">Subscribe to our newsletter for exclusive offers and updates</p>
             </div>
-            <div className="flex gap-3 relative z-10">
-  <input
-    type="email"
-    placeholder="Enter your email"
-    value={email}
-    onChange={(e) => setEmail(e.target.value)}
-    className="px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent w-64"
-  />
-  <button 
-    onClick={handleSubscribe}
-    className="px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg hover:shadow-lg transition-all duration-300"
-  >
-    Subscribe
-  </button>
-</div>
+            <div className="flex flex-col sm:flex-row gap-3 relative z-10 w-full lg:w-auto">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent w-full sm:w-64"
+              />
+              <button 
+                onClick={handleSubscribe}
+                className="px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg hover:shadow-lg transition-all duration-300 whitespace-nowrap"
+              >
+                Subscribe
+              </button>
+            </div>
 
           </div>
         </div>
