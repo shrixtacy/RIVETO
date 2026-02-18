@@ -22,6 +22,7 @@ import FaqPage from './pages/FaqPage';
 import PrivicyPolicy from './pages/PrivicyPolicy';
 import TermsAndServices from './pages/TermsAndServices';
 import SizeGuide from './pages/SizeGuide';
+import CookiePolicy from './pages/CookiePolicy';
 import Contributors from './pages/Contributors';
 import NewArrivals from './pages/NewArrivals';
 import { shopDataContext } from './context/ShopContext';
@@ -198,6 +199,12 @@ function App() {
           path="/size-guide"
           element={
             <SizeGuide />
+          }
+        />
+        <Route
+          path="/cookie-policy"
+          element={
+            <CookiePolicy />
           }
         />
         <Route
