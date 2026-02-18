@@ -83,19 +83,19 @@ function Footer() {
           {/* Social Media */}
           <div className="flex gap-3">
             {[
-              { icon: <FaFacebookF className="w-4 h-4" />, color: "hover:bg-blue-600" },
-              { icon: <FaTwitter className="w-4 h-4" />, color: "hover:bg-cyan-500" },
-              { icon: <FaInstagram className="w-4 h-4" />, color: "hover:bg-pink-600" },
-              { icon: <FaLinkedinIn className="w-4 h-4" />, color: "hover:bg-blue-700" }
+              { icon: <FaFacebookF className="w-4 h-4" />, color: "hover:bg-blue-600", name: "Facebook" },
+              { icon: <FaTwitter className="w-4 h-4" />, color: "hover:bg-cyan-500", name: "Twitter" },
+              { icon: <FaInstagram className="w-4 h-4" />, color: "hover:bg-pink-600", name: "Instagram" },
+              { icon: <FaLinkedinIn className="w-4 h-4" />, color: "hover:bg-blue-700", name: "LinkedIn" }
             ].map((social, index) => (
-              <a
+              <button
                 key={index}
-                href="#"
-                className={`w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 ${social.color}`}
-                aria-label={`Follow us on ${social.icon.type.displayName}`}
+                onClick={() => toast.info(`Follow us on ${social.name} - Coming soon!`)}
+                className={`w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 ${social.color} cursor-pointer`}
+                aria-label={`Follow us on ${social.name}`}
               >
                 {social.icon}
-              </a>
+              </button>
             ))}
           </div>
         </div>
