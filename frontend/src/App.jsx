@@ -23,6 +23,7 @@ import PrivicyPolicy from './pages/PrivicyPolicy';
 import TermsAndServices from './pages/TermsAndServices';
 import SizeGuide from './pages/SizeGuide';
 import Contributors from './pages/Contributors';
+import NewArrivals from './pages/NewArrivals';
 import { shopDataContext } from './context/ShopContext';
 import ComparisonPanel from './components/ComparisonPanel';
 import { RiPriceTag3Line } from "react-icons/ri";
@@ -88,6 +89,16 @@ function App() {
           element={
             userData ? (
               <Collections />
+            ) : (
+              <Navigate to="/login" state={{ from: location.pathname }} />
+            )
+          }
+        />
+        <Route
+          path="/new-arrivals"
+          element={
+            userData ? (
+              <NewArrivals />
             ) : (
               <Navigate to="/login" state={{ from: location.pathname }} />
             )
