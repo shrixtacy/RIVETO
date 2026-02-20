@@ -129,7 +129,7 @@ function Card({ name, image, id, price, showQuickActions = true, badge, badgeCol
   return (
     <div
       ref={cardRef}
-      className="relative bg-gradient-to-br from-gray-900/90 to-gray-800/90 rounded-2xl overflow-hidden shadow-xl cursor-pointer group border border-gray-700/50 backdrop-blur-sm"
+      className="relative bg-white dark:bg-gradient-to-br dark:from-gray-900/90 dark:to-gray-800/90 rounded-2xl overflow-hidden shadow-xl cursor-pointer group border border-gray-200 dark:border-gray-700/50 backdrop-blur-sm transition-colors duration-300"
       onClick={() => navigate(`/productdetail/${id}`)}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -254,20 +254,20 @@ function Card({ name, image, id, price, showQuickActions = true, badge, badgeCol
             {[...Array(5)].map((_, i) => (
               <FaStar
                 key={i}
-                className={`text-sm transition-all duration-300 ${i < Math.floor(rating) ? 'text-yellow-400 drop-shadow-[0_0_3px_rgba(250,204,21,0.5)]' : 'text-gray-600'
+                className={`text-sm transition-all duration-300 ${i < Math.floor(rating) ? 'text-yellow-400 drop-shadow-[0_0_3px_rgba(250,204,21,0.5)]' : 'text-gray-400 dark:text-gray-600'
                   }`}
                 style={{
                   animationDelay: `${i * 0.1}s`
                 }}
               />
             ))}
-            <span className="text-white text-sm font-medium ml-1">{rating}</span>
+            <span className="text-gray-700 dark:text-white text-sm font-medium ml-1">{rating}</span>
           </div>
-          <span className="text-gray-400 text-xs">({reviewCount})</span>
+          <span className="text-gray-500 dark:text-gray-400 text-xs">({reviewCount})</span>
         </div>
 
         {/* Product Name */}
-        <h3 className="font-semibold text-white text-lg mb-2 line-clamp-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:to-blue-500 transition-all duration-500 min-h-[3.5rem]">
+        <h3 className="font-semibold text-gray-900 dark:text-white text-lg mb-2 line-clamp-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:to-blue-500 transition-all duration-500 min-h-[3.5rem]">
           {name}
         </h3>
 
@@ -276,7 +276,7 @@ function Card({ name, image, id, price, showQuickActions = true, badge, badgeCol
           <p className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 font-bold text-xl">
             {currency}{price.toLocaleString()}
           </p>
-          <p className="text-gray-500 text-sm line-through">
+          <p className="text-gray-400 dark:text-gray-500 text-sm line-through">
             {currency}{originalPrice}
           </p>
         </div>

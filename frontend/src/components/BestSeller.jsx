@@ -76,7 +76,7 @@ function BestSeller() {
             <Title text1="BEST" text2="SELLERS" />
           </div>
 
-          <p className="text-gray-400 mt-3 sm:mt-4 text-sm sm:text-base md:text-lg lg:text-xl max-w-xs sm:max-w-lg md:max-w-2xl mx-auto leading-relaxed px-2 sm:px-0">
+          <p className="text-gray-600 dark:text-gray-400 mt-3 sm:mt-4 text-sm sm:text-base md:text-lg lg:text-xl max-w-xs sm:max-w-lg md:max-w-2xl mx-auto leading-relaxed px-2 sm:px-0">
             Discover our most loved products — tried, tested, and adored by thousands of customers worldwide.
           </p>
 

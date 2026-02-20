@@ -85,7 +85,7 @@ function LatestCollection() {
   }, []);
 
   return (
-    <div ref={sectionRef} className="w-full min-h-screen bg-gradient-to-br from-[#0a0a0f] via-[#0f1117] to-[#06080e] py-16 px-4 md:px-7 relative overflow-hidden">
+    <div ref={sectionRef} className="w-full min-h-screen bg-white dark:bg-gradient-to-br dark:from-[#0a0a0f] dark:via-[#0f1117] dark:to-[#06080e] py-16 px-4 md:px-7 relative overflow-hidden transition-colors duration-300">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden z-0">
         <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl"></div>
@@ -96,8 +96,9 @@ function LatestCollection() {
       {/* Section Title */}
       <div className="text-center mb-12 z-10 relative">
         <Title text1="TRENDING" text2="STYLES" />
-        <p className="text-gray-400 mt-3 text-lg md:text-xl font-light max-w-2xl mx-auto">
+        <p className="text-gray-600 dark:text-gray-400 mt-3 text-lg md:text-xl font-light max-w-2xl mx-auto">
           Discover our handpicked selection of the latest and most sought-after mobile devices
+
         </p>
       </div>
 

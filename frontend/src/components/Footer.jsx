@@ -55,13 +55,13 @@ function Footer() {
   };
 
   return (
-    <footer ref={footerRef} className="w-full bg-gradient-to-b from-gray-900 to-gray-950 text-gray-300 border-t border-gray-800 relative overflow-hidden">
-      {/* Background Pattern */}
+    <footer ref={footerRef} className="w-full bg-slate-100 dark:bg-gradient-to-b dark:from-gray-900 dark:to-gray-950 text-gray-700 dark:text-gray-300 border-t border-gray-200 dark:border-gray-800 relative overflow-hidden transition-colors duration-300">
+      {/* Background Pattern - Faint in light mode */}
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCI+CiAgPHBhdGggZD0iTTAgMGg2MHY2MEgweiIgZmlsbD0ibm9uZSIvPgogIDxwYXRoIGQ9Ik0zMCAzMG0tMjggMGEyOCwyOCAwIDEsMSA1NiwwYTI4LDI4IDAgMSwxIC01NiwwIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4wMykiIHN0cm9rZS13aWR0aD0iMC41IiBmaWxsPSJub25lIi8+Cjwvc3ZnPg==')] opacity-20"></div>
       
-      {/* Decorative Elements */}
-      <div className="absolute -top-20 -right-20 w-40 h-40 bg-cyan-500/10 rounded-full blur-3xl"></div>
-      <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl"></div>
+      {/* Decorative Elements - Hidden in light mode or adjusted */}
+      <div className="absolute -top-20 -right-20 w-40 h-40 bg-cyan-500/10 rounded-full blur-3xl hidden dark:block"></div>
+      <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl hidden dark:block"></div>
 
       {/* Main Footer Content */}
       <div className="max-w-7xl mx-auto py-16 px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 relative z-10">
@@ -76,7 +76,7 @@ function Footer() {
               RIVETO
             </h2>
           </div>
-          <p className="text-sm leading-relaxed text-gray-400 mb-6">
+          <p className="text-sm leading-relaxed text-gray-500 dark:text-gray-400 mb-6 font-medium">
             RIVETO is a premium e-commerce platform built for the modern shopper. Experience seamless shopping with cutting-edge technology and exceptional service.
           </p>
           
@@ -103,7 +103,7 @@ function Footer() {
 
         {/* Quick Links */}
         <div className="footer-section">
-          <h3 className="text-lg font-semibold text-white mb-6 flex items-center gap-2">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
             <RiCustomerService2Fill className="text-cyan-400" />
             Quick Links
           </h3>
@@ -117,7 +117,7 @@ function Footer() {
               { name: 'Best Sellers', to: '/best-sellers' }
             ].map((item, index) => (
               <li key={index}>
-                <Link to={item.to} className="text-sm text-gray-400 hover:text-cyan-400 transition-colors duration-300 flex items-center gap-2 group">
+                <Link to={item.to} className="text-sm text-gray-600 dark:text-gray-400 hover:text-cyan-400 transition-colors duration-300 flex items-center gap-2 group">
                   <span className="w-1 h-1 bg-cyan-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
                   {item.name}
                 </Link>
@@ -128,7 +128,7 @@ function Footer() {
 
         {/* Support */}
         <div className="footer-section">
-          <h3 className="text-lg font-semibold text-white mb-6 flex items-center gap-2">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
             <BiSupport className="text-cyan-400" />
             Support
           </h3>
@@ -141,7 +141,7 @@ function Footer() {
               { name: 'Terms of Service', to: '/termsandservices' },
             ].map((item, index) => (
               <li key={index}>
-                <Link to={item.to} className="text-sm text-gray-400 hover:text-cyan-400 transition-colors duration-300 flex items-center gap-2 group">
+                <Link to={item.to} className="text-sm text-gray-600 dark:text-gray-400 hover:text-cyan-400 transition-colors duration-300 flex items-center gap-2 group">
                   <span className="w-1 h-1 bg-cyan-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
                   {item.name}
                 </Link>
@@ -152,16 +152,16 @@ function Footer() {
 
         {/* Contact Info */}
         <div className="footer-section">
-          <h3 className="text-lg font-semibold text-white mb-6">Get in Touch</h3>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Get in Touch</h3>
           <ul className="space-y-4">
             <li className="flex items-start gap-3">
               <div className="w-8 h-8 bg-cyan-500/10 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
                 <FaPhone className="w-3 h-3 text-cyan-400" />
               </div>
               <div>
-                <p className="text-sm font-medium text-white">Phone</p>
-                <p className="text-sm text-gray-400">+91 93073 42318</p>
-                <p className="text-sm text-gray-400">+1 123 456 7890</p>
+                <p className="text-sm font-medium text-gray-900 dark:text-white">Phone</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">+91 93073 42318</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">+1 123 456 7890</p>
               </div>
             </li>
             
@@ -170,9 +170,9 @@ function Footer() {
                 <FaEnvelope className="w-3 h-3 text-cyan-400" />
               </div>
               <div>
-                <p className="text-sm font-medium text-white">Email</p>
-                <p className="text-sm text-gray-400">contact@riveto.com</p>
-                <p className="text-sm text-gray-400">support@riveto.com</p>
+                <p className="text-sm font-medium text-gray-900 dark:text-white">Email</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">contact@riveto.com</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">support@riveto.com</p>
               </div>
             </li>
             
@@ -181,9 +181,9 @@ function Footer() {
                 <FaMapMarkerAlt className="w-3 h-3 text-cyan-400" />
               </div>
               <div>
-                <p className="text-sm font-medium text-white">Address</p>
-                <p className="text-sm text-gray-400">123 lorem ipsum Street</p>
-                <p className="text-sm text-gray-400">lorem2, ipsum3, 10001</p>
+                <p className="text-sm font-medium text-gray-900 dark:text-white">Address</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">123 lorem ipsum Street</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">lorem2, ipsum3, 10001</p>
               </div>
             </li>
           </ul>
@@ -191,12 +191,12 @@ function Footer() {
       </div>
 
       {/* Newsletter Subscription */}
-      <div className="border-t border-gray-800 py-8">
+      <div className="border-t border-gray-200 dark:border-gray-800 py-8 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
             <div>
-              <h4 className="text-white font-semibold mb-2">Stay Updated</h4>
-              <p className="text-sm text-gray-400">Subscribe to our newsletter for exclusive offers and updates</p>
+              <h4 className="text-gray-900 dark:text-white font-semibold mb-2">Stay Updated</h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Subscribe to our newsletter for exclusive offers and updates</p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 relative z-10 w-full lg:w-auto">
               <input
