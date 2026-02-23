@@ -62,9 +62,23 @@ const productSchema = new mongoose.Schema({
   popularity: {
     type: Number,
     default: 0
+  },
+  stock: {
+    type: Map,
+    of: Number,
+    default: new Map(),
+    validate: {
+      validator: function(v) {
+        for (let [size, quantity] of v) {
+          if (quantity < 0) return false;
+        }
+        return true;
+      },
+      message: 'Stock quantity cannot be negative'
+    }
   }
 }, {
-  timestamps: true  // ✅ Automatically adds `createdAt` and `updatedAt`
+  timestamps: true
 });
 
 const Product = mongoose.model('Product', productSchema);

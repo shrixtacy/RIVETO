@@ -31,17 +31,17 @@ function Order() {
         { withCredentials: true }
       );
 
-      if (result.data) {
+      if (result.data.success && result.data.orders) {
         let allOrdersItem = [];
-        result.data.forEach((order) => {
+        result.data.orders.forEach((order) => {
           order.items.forEach((item) => {
             item.status = order.status;
             item.payment = order.payment;
             item.paymentMethod = order.paymentMethod;
             item.date = order.date;
             item.orderId = order._id;
-            item.totalAmount = order.totalAmount;
-            item.shippingAddress = order.shippingAddress;
+            item.totalAmount = order.amount;
+            item.address = order.address;
             allOrdersItem.push(item);
           });
         });
@@ -241,11 +241,15 @@ function Order() {
                         src={item.image1}
                         alt={item.name}
                         className="w-20 h-20 object-cover rounded-xl"
+                        onError={(e) => {
+                          e.target.src = '/placeholder-product.png';
+                        }}
                       />
                       <div>
                         <h3 className="text-white font-semibold text-lg mb-1">{item.name}</h3>
                         <p className="text-cyan-400 font-bold text-xl">{currency}{item.price}</p>
-                        <p className="text-gray-400 text-sm">Quantity: {item.quantity || 1}</p>
+                        <p className="text-gray-400 text-sm">Quantity: {item.quantity}</p>
+                        <p className="text-gray-400 text-sm">Size: {item.size}</p>
                       </div>
                     </div>
 

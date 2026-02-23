@@ -16,7 +16,9 @@ function Order() {
     try {
       setLoading(true);
       const result = await axios.post(serverUrl + "/api/order/list", {}, { withCredentials: true });
-      setOrders(result.data.reverse());
+      if (result.data.success && result.data.orders) {
+        setOrders(result.data.orders.reverse());
+      }
     } catch (error) {
       console.error("Failed to fetch orders:", error);
       toast.error("Failed to load orders");
@@ -33,13 +35,13 @@ function Order() {
         { withCredentials: true }
       );
       
-      if (result.data) {
+      if (result.data.success) {
         await fetchAllOrders();
-        toast.success("Order status updated successfully");
+        toast.success(result.data.message || "Order status updated successfully");
       }
     } catch (error) {
       console.log(error);
-      toast.error("Failed to update order status");
+      toast.error(error.response?.data?.message || "Failed to update order status");
     }
   };
 
@@ -50,11 +52,11 @@ function Order() {
   // Get unique status values for filter
   const statusOptions = [
     'All',
-    'Order Placed',
-    'Packing',
+    'Placed',
+    'Processing',
     'Shipped',
-    'Out for delivery',
-    'Delivered'
+    'Delivered',
+    'Cancelled'
   ];
 
   // Filter orders based on status
@@ -64,11 +66,11 @@ function Order() {
 
   // Status color mapping
   const statusColors = {
-    'Order Placed': 'bg-blue-500',
-    'Packing': 'bg-amber-500',
+    'Placed': 'bg-blue-500',
+    'Processing': 'bg-amber-500',
     'Shipped': 'bg-indigo-500',
-    'Out for delivery': 'bg-purple-500',
-    'Delivered': 'bg-green-500'
+    'Delivered': 'bg-green-500',
+    'Cancelled': 'bg-red-500'
   };
 
   return (
@@ -158,20 +160,29 @@ function Order() {
                         <div className='space-y-3'>
                           {order.items?.map((item, idx) => (
                             <div key={idx} className='flex items-start gap-3 p-3 bg-slate-700/30 rounded-lg'>
-                              <img 
-                                src={item.image} 
-                                alt={item.name}
-                                className='w-12 h-12 object-cover rounded'
-                              />
                               <div className='flex-1'>
                                 <p className='text-slate-200 font-medium'>{item.name}</p>
                                 <div className='flex justify-between text-sm text-slate-400 mt-1'>
                                   <span>Qty: {item.quantity} | Size: {item.size}</span>
-                                  <span>₹{item.price}</span>
+                                  <span>₹{item.price} × {item.quantity} = ₹{item.subtotal}</span>
                                 </div>
                               </div>
                             </div>
                           ))}
+                          <div className='pt-3 border-t border-slate-600'>
+                            <div className='flex justify-between text-slate-400 text-sm mb-1'>
+                              <span>Subtotal:</span>
+                              <span>₹{order.subtotal}</span>
+                            </div>
+                            <div className='flex justify-between text-slate-400 text-sm mb-2'>
+                              <span>Delivery Fee:</span>
+                              <span>₹{order.deliveryFee}</span>
+                            </div>
+                            <div className='flex justify-between text-cyan-400 font-semibold'>
+                              <span>Total:</span>
+                              <span>₹{order.amount}</span>
+                            </div>
+                          </div>
                         </div>
                       </div>
                       
@@ -224,11 +235,11 @@ function Order() {
                           onChange={(e) => statusHandler(e, order._id)}
                           className='w-full bg-slate-700/40 border border-slate-600 rounded-lg px-4 py-2 text-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all cursor-pointer'
                         >
-                          <option value="Order Placed">Order Placed</option>
-                          <option value="Packing">Packing</option>
+                          <option value="Placed">Placed</option>
+                          <option value="Processing">Processing</option>
                           <option value="Shipped">Shipped</option>
-                          <option value="Out for delivery">Out for delivery</option>
                           <option value="Delivered">Delivered</option>
+                          <option value="Cancelled">Cancelled</option>
                         </select>
                       </div>
                     </div>

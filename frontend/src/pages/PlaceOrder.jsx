@@ -109,32 +109,51 @@ function PlaceOrder() {
       for (const productId in cartItem) {
         for (const size in cartItem[productId]) {
           if (cartItem[productId][size] > 0) {
-            const itemInfo = structuredClone(products.find(product => product._id === productId));
-            if (itemInfo) {
-              itemInfo.size = size;
-              itemInfo.quantity = cartItem[productId][size];
-              orderItems.push(itemInfo);
-            }
+            orderItems.push({
+              productId: productId,
+              size: size,
+              quantity: cartItem[productId][size]
+            });
           }
         }
+      }
+
+      if (orderItems.length === 0) {
+        toast.error('Your cart is empty');
+        setIsProcessing(false);
+        return;
       }
 
       const orderData = {
         address: formData,
         items: orderItems,
-        amount: getCartAmount() + delivery_fee,
-        paymentMethod: method,
-        status: 'Placed'
+        amount: getCartAmount() + delivery_fee
       };
 
       const result = await axios.post(`${serverUrl}/api/order/placeorder`, orderData, { withCredentials: true });
-      if (result.data) {
+      
+      if (result.data.success) {
         setCartItem({});
+        toast.success(result.data.message || 'Order placed successfully!');
         navigate("/order");
+      } else {
+        toast.error(result.data.message || 'Failed to place order');
+        setIsProcessing(false);
       }
 
     } catch (error) {
       console.error('Error placing order:', error);
+      
+      if (error.response?.data?.message) {
+        toast.error(error.response.data.message);
+        
+        if (error.response.data.expectedAmount && error.response.data.receivedAmount) {
+          toast.warning(`Price mismatch detected. Please refresh and try again.`);
+        }
+      } else {
+        toast.error('Failed to place order. Please try again.');
+      }
+      
       setIsProcessing(false);
     }
   };
