@@ -23,10 +23,10 @@ const validateOrderItems = (items) => {
 };
 
 const calculateOrderAmount = async (items) => {
-  const productIds = items.map(item => item.productId);
-  const products = await Product.find({ _id: { $in: productIds } });
+  const uniqueProductIds = [...new Set(items.map(item => item.productId))];
+  const products = await Product.find({ _id: { $in: uniqueProductIds } });
 
-  if (products.length !== productIds.length) {
+  if (products.length !== uniqueProductIds.length) {
     throw new Error("One or more products not found");
   }
 
@@ -43,6 +43,13 @@ const calculateOrderAmount = async (items) => {
 
     if (!product.sizes.includes(item.size)) {
       throw new Error(`Size ${item.size} not available for product ${product.name}`);
+    }
+
+    if (product.stock && product.stock.has(item.size)) {
+      const availableStock = product.stock.get(item.size);
+      if (availableStock < item.quantity) {
+        throw new Error(`Insufficient stock for ${product.name} (Size: ${item.size}). Available: ${availableStock}, Requested: ${item.quantity}`);
+      }
     }
 
     const itemSubtotal = product.price * item.quantity;
