@@ -240,24 +240,16 @@ function Order() {
                       <img
                         src={item.image1}
                         alt={item.name}
-<<<<<<< HEAD
                         className="w-20 h-20 object-cover rounded-xl border border-slate-200 dark:border-gray-700"
-=======
-                        className="w-20 h-20 object-cover rounded-xl"
                         onError={(e) => {
                           e.target.src = '/placeholder-product.png';
                         }}
->>>>>>> abb95c9 (fix: Critical security vulnerability - Order amount validation (Issue #101))
                       />
                       <div>
                         <h3 className="text-slate-900 dark:text-white font-semibold text-lg mb-1">{item.name}</h3>
                         <p className="text-cyan-400 font-bold text-xl">{currency}{item.price}</p>
-<<<<<<< HEAD
-                        <p className="text-slate-500 dark:text-gray-400 text-sm">Quantity: {item.quantity || 1}</p>
-=======
-                        <p className="text-gray-400 text-sm">Quantity: {item.quantity}</p>
-                        <p className="text-gray-400 text-sm">Size: {item.size}</p>
->>>>>>> abb95c9 (fix: Critical security vulnerability - Order amount validation (Issue #101))
+                        <p className="text-slate-500 dark:text-gray-400 text-sm">Quantity: {item.quantity}</p>
+                        <p className="text-slate-500 dark:text-gray-400 text-sm">Size: {item.size}</p>
                       </div>
                     </div>
 
