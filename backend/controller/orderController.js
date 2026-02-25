@@ -45,11 +45,13 @@ const calculateOrderAmount = async (items) => {
       throw new Error(`Size ${item.size} not available for product ${product.name}`);
     }
 
-    if (product.stock && product.stock.has(item.size)) {
-      const availableStock = product.stock.get(item.size);
-      if (availableStock < item.quantity) {
-        throw new Error(`Insufficient stock for ${product.name} (Size: ${item.size}). Available: ${availableStock}, Requested: ${item.quantity}`);
-      }
+    if (!product.stock || !product.stock.has(item.size)) {
+      throw new Error(`Stock information not available for ${product.name} (Size: ${item.size})`);
+    }
+
+    const availableStock = product.stock.get(item.size);
+    if (availableStock < item.quantity) {
+      throw new Error(`Insufficient stock for ${product.name} (Size: ${item.size}). Available: ${availableStock}, Requested: ${item.quantity}`);
     }
 
     const itemSubtotal = product.price * item.quantity;
@@ -138,7 +140,9 @@ export const placeOrder = async (req, res) => {
 
     const statusCode = error.message.includes("not found") || 
                        error.message.includes("Invalid") || 
-                       error.message.includes("Incomplete") ? 400 : 500;
+                       error.message.includes("Incomplete") ||
+                       error.message.includes("not available") ||
+                       error.message.includes("Insufficient stock") ? 400 : 500;
 
     return res.status(statusCode).json({
       success: false,
