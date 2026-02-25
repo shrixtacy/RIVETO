@@ -92,7 +92,7 @@ function Footer() {
                 key={index}
                 type="button"
                 onClick={() => toast.info(`Follow us on ${social.name} - Coming soon!`)}
-                className={`w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 ${social.color} cursor-pointer`}
+                className={`w-10 h-10 bg-slate-200 dark:bg-gray-800 text-slate-700 dark:text-white rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 ${social.color} cursor-pointer`}
                 aria-label={`Follow us on ${social.name}`}
               >
                 {social.icon}
@@ -204,7 +204,7 @@ function Footer() {
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent w-full sm:w-64"
+                className="px-4 py-2 bg-white dark:bg-gray-800 border border-slate-300 dark:border-gray-700 rounded-lg text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent w-full sm:w-64"
               />
               <button 
                 onClick={handleSubscribe}
@@ -219,19 +219,19 @@ function Footer() {
       </div>
 
       {/* Bottom bar */}
-      <div className="bg-gradient-to-r from-gray-900 to-gray-950 py-6 border-t border-gray-800">
+      <div className="bg-gradient-to-r from-slate-100 to-slate-200 dark:from-gray-900 dark:to-gray-950 py-6 border-t border-slate-300 dark:border-gray-800">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-gray-500 text-center md:text-left">
+          <p className="text-xs text-slate-600 dark:text-gray-500 text-center md:text-left">
             © {currentYear} <span className="text-cyan-400 font-medium">RIVETO</span> — All rights reserved.
           </p>
           
-          <div className="flex items-center gap-6 text-xs text-gray-500">
+          <div className="flex items-center gap-6 text-xs text-slate-600 dark:text-gray-500">
             <Link to="/termsandservices" className="hover:text-cyan-400 transition-colors">Terms of Service</Link>
             <Link to="/privicypolicy" className="hover:text-cyan-400 transition-colors">Privacy Policy</Link>
             <Link to="/cookie-policy" className="hover:text-cyan-400 transition-colors">Cookie Policy</Link>
           </div>
           
-          <div className="flex items-center gap-2 text-xs text-gray-500">
+          <div className="flex items-center gap-2 text-xs text-slate-600 dark:text-gray-500">
             <span>Made with</span>
             <FaHeart className="text-rose-500 animate-pulse" />
             <span>for our customers</span>
