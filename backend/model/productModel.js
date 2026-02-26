@@ -34,12 +34,17 @@ const productSchema = new mongoose.Schema({
     required: true
   },
   subCategory: {
-    type: String,  // ✅ Corrected from Number
+    type: String,
     required: true
   },
   sizes: {
-    type: [String],  // ✅ Stronger type declaration
+    type: [String],
     required: true
+  },
+  stock: {
+    type: Map,
+    of: Number,
+    default: () => new Map()
   },
   bestseller: {
     type: Boolean,
@@ -64,7 +69,7 @@ const productSchema = new mongoose.Schema({
     default: 0
   }
 }, {
-  timestamps: true  // ✅ Automatically adds `createdAt` and `updatedAt`
+  timestamps: true
 });
 
 const Product = mongoose.model('Product', productSchema);

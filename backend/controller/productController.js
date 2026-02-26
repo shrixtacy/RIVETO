@@ -15,6 +15,12 @@ export const addProduct = async (req, res) => {
     const image3 = await uploadOnCloudinary(req.files.image3[0].path);
     const image4 = await uploadOnCloudinary(req.files.image4[0].path);
 
+    const parsedSizes = JSON.parse(sizes);
+    const stockMap = new Map();
+    parsedSizes.forEach(size => {
+      stockMap.set(size, 100);
+    });
+
     const productData = {
       name,
       image1,
@@ -25,7 +31,8 @@ export const addProduct = async (req, res) => {
       price: Number(price),
       category,
       subCategory,
-      sizes: JSON.parse(sizes),
+      sizes: parsedSizes,
+      stock: stockMap,
       bestseller: bestseller === 'true'
     };
 

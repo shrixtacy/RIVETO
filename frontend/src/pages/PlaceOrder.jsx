@@ -109,22 +109,18 @@ function PlaceOrder() {
       for (const productId in cartItem) {
         for (const size in cartItem[productId]) {
           if (cartItem[productId][size] > 0) {
-            const itemInfo = structuredClone(products.find(product => product._id === productId));
-            if (itemInfo) {
-              itemInfo.size = size;
-              itemInfo.quantity = cartItem[productId][size];
-              orderItems.push(itemInfo);
-            }
+            orderItems.push({
+              productId,
+              size,
+              quantity: cartItem[productId][size]
+            });
           }
         }
       }
 
       const orderData = {
         address: formData,
-        items: orderItems,
-        amount: getCartAmount() + delivery_fee,
-        paymentMethod: method,
-        status: 'Placed'
+        items: orderItems
       };
 
       const result = await axios.post(`${serverUrl}/api/order/placeorder`, orderData, { withCredentials: true });
@@ -135,6 +131,8 @@ function PlaceOrder() {
 
     } catch (error) {
       console.error('Error placing order:', error);
+      const errorMessage = error.response?.data?.message || 'Failed to place order';
+      alert(errorMessage);
       setIsProcessing(false);
     }
   };
