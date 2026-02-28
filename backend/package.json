@@ -8,7 +8,10 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "test": "NODE_ENV=test node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "migrate:legacy-products": "node scripts/migrateLegacyProducts.js",
+    "add:stock": "node scripts/addStockToProducts.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
@@ -31,6 +34,8 @@
   "devDependencies": {
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-node": "^11.1.0"
+    "eslint-plugin-node": "^11.1.0",
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
   }
 }

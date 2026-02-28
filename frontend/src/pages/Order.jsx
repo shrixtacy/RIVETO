@@ -238,7 +238,7 @@ function Order() {
                     {/* Product Info */}
                     <div className="flex gap-4">
                       <img
-                        src={item.image1}
+                        src={item.image}
                         alt={item.name}
                         className="w-20 h-20 object-cover rounded-xl border border-slate-200 dark:border-gray-700"
                       />

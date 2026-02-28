@@ -60,7 +60,12 @@ if (fs.existsSync(frontendBuildPath)) {
   });
 }
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-});
+// Start server (skip in test environment)
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
+  });
+}
+
+// Export app for testing
+export default app;
