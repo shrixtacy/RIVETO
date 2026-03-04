@@ -31,9 +31,11 @@ const calculateOrderAmount = async (items) => {
   }
 
   const productMap = new Map(products.map(p => [p._id.toString(), p]));
-  const validatedItems = [];
-  let subtotal = 0;
 
+  // Aggregate quantities by (productId, size) so duplicate lines are merged
+  // before stock validation. This prevents two lines sharing the same key
+  // from each independently passing a stock check they would collectively fail.
+  const aggregatedMap = new Map(); // key: "productId::size" -> { product, size, totalQty }
   for (const item of items) {
     const product = productMap.get(item.productId);
 
@@ -49,28 +51,47 @@ const calculateOrderAmount = async (items) => {
       throw new Error(`Stock information not available for ${product.name} (Size: ${item.size})`);
     }
 
-    const availableStock = product.stock.get(item.size);
-    if (availableStock < item.quantity) {
-      throw new Error(`Insufficient stock for ${product.name} (Size: ${item.size}). Available: ${availableStock}, Requested: ${item.quantity}`);
+    const key = `${item.productId}::${item.size}`;
+    if (aggregatedMap.has(key)) {
+      aggregatedMap.get(key).totalQty += item.quantity;
+    } else {
+      aggregatedMap.set(key, { product, size: item.size, totalQty: item.quantity });
     }
+  }
 
+  // Validate aggregated totals against available stock
+  for (const { product, size, totalQty } of aggregatedMap.values()) {
+    const availableStock = product.stock.get(size);
+    if (availableStock < totalQty) {
+      throw new Error(
+        `Insufficient stock for ${product.name} (Size: ${size}). ` +
+        `Available: ${availableStock}, Requested: ${totalQty}`
+      );
+    }
+  }
+
+  // Build validated items list (preserve individual lines for the order record)
+  // and compute subtotal using aggregated product data
+  let subtotal = 0;
+  const validatedItems = items.map(item => {
+    const product = productMap.get(item.productId);
     const itemSubtotal = product.price * item.quantity;
     subtotal += itemSubtotal;
-
-    validatedItems.push({
+    return {
       productId: product._id,
       name: product.name,
       size: item.size,
       quantity: item.quantity,
       price: product.price,
       subtotal: itemSubtotal
-    });
-  }
+    };
+  });
 
   const totalAmount = subtotal + DELIVERY_FEE;
 
   return {
     validatedItems,
+    aggregatedMap,   // used for atomic stock decrement
     subtotal,
     deliveryFee: DELIVERY_FEE,
     totalAmount
@@ -91,7 +112,7 @@ export const placeOrder = async (req, res) => {
 
     validateOrderItems(items);
 
-    const { validatedItems, subtotal, deliveryFee, totalAmount } = await calculateOrderAmount(items);
+    const { validatedItems, aggregatedMap, subtotal, deliveryFee, totalAmount } = await calculateOrderAmount(items);
 
     if (Math.abs(totalAmount - clientAmount) > AMOUNT_TOLERANCE) {
       return res.status(400).json({
@@ -124,6 +145,18 @@ export const placeOrder = async (req, res) => {
       { cartData: {} },
       { session }
     );
+
+    // Atomically decrement stock for each unique (productId, size) combination
+    // inside the same transaction. Using $inc with a negative value is safe
+    // because the product schema validator prevents stock from going below 0,
+    // and the aggregated validation above already confirmed sufficiency.
+    for (const { product, size, totalQty } of aggregatedMap.values()) {
+      await Product.findByIdAndUpdate(
+        product._id,
+        { $inc: { [`stock.${size}`]: -totalQty } },
+        { session, new: true }
+      );
+    }
 
     await session.commitTransaction();
 

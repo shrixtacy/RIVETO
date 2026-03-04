@@ -172,7 +172,111 @@ curl -X POST http://localhost:4000/api/order/placeorder \
 - Status: 400
 - Validation error listing missing fields
 
+### Test Case 6: Duplicate Same-Size Line Items — Aggregate Overflow (Should Fail)
+
+**Scenario**: Two order lines reference the same `productId` and `size`. Their individual
+quantities each fit within available stock, but their *combined* total exceeds it. This test
+verifies that quantities are aggregated per `(productId, size)` **before** the stock check,
+so the request is correctly rejected.
+
+**Setup assumption**: product `507f1f77bcf86cd799439011` has `stock.M = 5`.
+
+```bash
+curl -X POST http://localhost:4000/api/order/placeorder \
+  -H "Content-Type: application/json" \
+  -H "Cookie: token=<valid_jwt_token>" \
+  -d '{
+    "items": [
+      {
+        "productId": "507f1f77bcf86cd799439011",
+        "size": "M",
+        "quantity": 3
+      },
+      {
+        "productId": "507f1f77bcf86cd799439011",
+        "size": "M",
+        "quantity": 4
+      }
+    ],
+    "amount": 880,
+    "address": {
+      "firstname": "John",
+      "lastname": "Doe",
+      "email": "john@example.com",
+      "street": "123 Main Street",
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "pincode": "400001",
+      "country": "India",
+      "phone": "9876543210"
+    }
+  }'
+```
+
+**Expected Result**:
+- Status: `400`
+- Error message: `"Insufficient stock for <product name> (Size: M). Available: 5, Requested: 7"`
+- The two line-quantities (3 + 4 = 7) are summed before validation, so the request is rejected
+  even though each individual quantity (3, 4) is less than 5.
+
+**What used to happen (bug)**:
+- Each line was validated independently: `5 ≥ 3` ✅ and `5 ≥ 4` ✅
+- Both passed; the order was accepted with a combined demand of 7 against 5 in stock.
+- Stock was also never decremented, leaving inventory permanently out of sync.
+
+**What happens now (fix)**:
+- Quantities are aggregated to `7` before validation: `5 ≥ 7` ❌ → request rejected.
+- On success, stock is atomically decremented via `$inc` inside the Mongoose transaction.
+
+---
+
+### Test Case 7: Duplicate Same-Size Line Items — Aggregate Within Stock (Should Succeed)
+
+**Scenario**: Same product+size across two lines, but combined quantity is within stock.
+
+**Setup assumption**: product `507f1f77bcf86cd799439011` has `stock.M = 10`.
+
+```bash
+curl -X POST http://localhost:4000/api/order/placeorder \
+  -H "Content-Type: application/json" \
+  -H "Cookie: token=<valid_jwt_token>" \
+  -d '{
+    "items": [
+      {
+        "productId": "507f1f77bcf86cd799439011",
+        "size": "M",
+        "quantity": 3
+      },
+      {
+        "productId": "507f1f77bcf86cd799439011",
+        "size": "M",
+        "quantity": 4
+      }
+    ],
+    "amount": 1440,
+    "address": {
+      "firstname": "Jane",
+      "lastname": "Doe",
+      "email": "jane@example.com",
+      "street": "456 Park Avenue",
+      "city": "Delhi",
+      "state": "Delhi",
+      "pincode": "110001",
+      "country": "India",
+      "phone": "9123456780"
+    }
+  }'
+```
+
+**Expected Result**:
+- Status: `201`
+- Order placed successfully; `stock.M` decremented by 7 atomically (from 10 → 3).
+- Both line items are preserved in the order record as separate entries.
+
+---
+
 ## Security Improvements
+
 
 ### Before Fix
 ```javascript
